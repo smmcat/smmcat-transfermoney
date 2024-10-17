@@ -197,7 +197,7 @@ export function apply(ctx: Context, config: Config) {
 
       const accountMsg = ` 进入结算转账流程：\n----------------------------\n` +
         `${actionInfoList.map(item => {
-          return '\u200b\n' + h.at(item.userId) + ` 当前持有：${item.balance}\n预计获得：${averageNum}\n获得后的${config.currency}：${item.balance + num}`
+          return '\u200b\n' + h.at(item.userId) + ` 当前持有：${item.balance}\n预计获得：${averageNum}\n获得后的${config.currency}：${item.balance + averageNum}`
         }).join('\n\n')}` +
         `\n----------------------------\n` +
         `您当前${config.currency}持有：${myData.value}\n` +
@@ -317,7 +317,7 @@ export function apply(ctx: Context, config: Config) {
       const payEventList = actionInfoList.map((item, index) => {
         return new Promise(async (resolve, reject) => {
           await ctx.monetary.gain(item.uid, resultList[index]);
-          msgArr.push(`\u200b\n` + h.at(item.userId) + `获得了 ${resultList[index]}${config.currency}！` +
+          msgArr.push(`\u200b\n` + h.at(item.userId) + ` 获得了 ${resultList[index]}${config.currency}！` +
             `${index == maxIndex ? ' [运气王]' : ''}`)
           resolve(true)
         })
@@ -342,7 +342,7 @@ export function apply(ctx: Context, config: Config) {
       if (!data) await ctx.monetary.gain(uid, 0)
       return `你的${config.currency}为 ${data ? data.value : 0}`
     })
-
+    
   const tool = {
     splitValue(value, length) {
       let result = [];
